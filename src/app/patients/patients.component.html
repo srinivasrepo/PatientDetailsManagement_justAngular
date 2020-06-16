@@ -1,0 +1,158 @@
+<br>
+<h2 style="text-align: center;">PATIENTS DETAILS</h2>
+<br>
+<button type="button" id="modalOpenButton" class="btn btn-info btn-lg float-right mr-5" data-toggle="modal" (click)=modalOpenButton() data-target="#myModal">Add Patient</button>
+<br>
+<br>
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+
+      <div class="modal-body" id="modalBodyId">
+
+        
+      <div class="modal-header">
+        <h4 class="modal-title">Patient Details</h4>
+        <button type="button" class="close" id="modalCloseButton" data-dismiss="modal">&times;</button>
+      </div>
+      <br>
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" [disabled]="isDisable" class="form-control" [(ngModel)]="patientDetails.firstName">
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text"  id="lastName" [disabled]="isDisable" class="form-control" [(ngModel)]="patientDetails.lastName">
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" [disabled]="isDisable" class="form-control" [(ngModel)]="patientDetails.password">
+        </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" [disabled]="isDisable" class="form-control" [(ngModel)]="patientDetails.email">
+          </div>
+
+          <div class="form-group">
+            <label for="mobileNumber">Mobile Number</label>
+            <input type="number" id="mobileNumber" [disabled]="isDisable" class="form-control" [(ngModel)]="patientDetails.mobileNumber" maxlength="10">
+          </div>
+  
+          <div class="form-group">
+            <label class="mdb-main-label" for="gender" >Gender</label>
+            <select class="form-control"  id="gender" [disabled]="isDisable" [(ngModel)]="patientDetails.gender">
+              <!-- <option value="" selected="true" disabled="true">Select Gender</option> -->
+               <option value='male'>Male</option> 
+               <option value='female'>Fe male</option> 
+               <option value='other'>Other</option> 
+            </select>
+          </div>
+
+           <hr>
+            <form >
+              <h6 >ADDRESS FIELD :</h6>
+              <div class="form-group">
+                <label for="hn">House no.</label>
+                <input type="text" id="hn" name="houseNumber" [disabled]="isDisable" [(ngModel)]="addressDetails.houseNumber" class="form-control" ngModel>
+              </div>
+
+              <div class="form-group">
+                <label for="sn">Street Name</label>
+                <input type="text" id="sn" name="streetName" [disabled]="isDisable" [(ngModel)]="addressDetails.streetName" class="form-control" ngModel>
+              </div>
+
+              <div class="form-group">
+                <label for="c">City</label>
+                <input type="text" id="c" name="city" [disabled]="isDisable" [(ngModel)]="addressDetails.city" class="form-control" ngModel>
+              </div>
+
+            </form>
+            <br>
+            <div *ngIf="addressListDetails.length > 0">
+              <!-- <app-table (onActionClicked)="onAddressActionClicked($event)" [headers]="addressHeaders" [dataSource]="addressDataSource"  [actions]="AddressActions"> -->
+                <h6>Address Table</h6>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>S NO.</th>
+                      <th>House no.</th>
+                      <th>Street Name</th>
+                      <th>City</th>
+                      <th>Edit</th>
+                      <th>Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let add of addressListDetails; let i=index">
+                      <td>{{i+1}}</td>
+                      <td>{{add.houseNumber}}</td>
+                      <td>{{add.streetName}}</td>
+                      <td>{{add.city}}</td>
+                      <td><button  class="btn btn-warning" [disabled]="isDisable" (click)="editAddress(i)">Edit</button></td>
+                      <td><button  class="btn btn-warning" [disabled]="isDisable" (click)="deleteAddress(i)">Delete</button></td>
+                    </tr>
+                  </tbody>
+                  </table>
+            </div>
+            <br> 
+            <button  class="btn btn-secondary" [disabled]="isDisable" (click)="addAddress()">{{addressBtnType}}</button>
+
+            <br>  
+            <button type="button" class="btn btn-primary float-right" [disabled]="isDisable" (click)='addPatient()'>Save Patient</button>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+      
+    </div>
+
+  </div>
+</div>
+
+<!-- <app-table (onActionClicked)="onActionClicked($event)" [headers]="Headers" [dataSource]="dataSource"  [actions]="actions"></app-table> -->
+<br>
+<br>
+<div *ngIf = "patientsListModelObj.list.length >0">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>S NO.</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Password</th>
+                      <th>Email</th>
+                      <th>Mobile Number</th>
+                      <th>Gender</th>
+                      <th>Address</th>
+                      <th>View</th>
+                      <th>Edit</th>
+                      <th>Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let add of patientsListModelObj.list; let i=index">
+                      <td>{{i+1}}</td>
+                      <td>{{add.firstName}}</td>
+                      <td>{{add.lastName}}</td>
+                      <td>{{add.password}}</td>
+                      <td>{{add.email}}</td>
+                      <td>{{add.mobileNumber}}</td>
+                      <td>{{add.gender}}</td>
+                      <td><ol style="list-style-type: none;" *ngFor="let singleAdd of add.address; let in=index" >
+                        <li style="text-decoration: underline">Address - {{in+1}}</li>
+                        <li>House No: {{singleAdd.houseNumber}}</li>
+                        <li>Street Name: {{singleAdd.streetName}}</li>
+                        <li>City: {{singleAdd.city}}</li>
+                      </ol></td>
+                      <td><button  class="btn btn-warning" (click)="viewPatient(i)">View</button></td>
+                      <td><button  class="btn btn-warning" (click)="editPatient(i)">Edit</button></td>
+                      <td><button  class="btn btn-warning" (click)="deletePatient(i)">Delete</button></td>
+                    </tr>
+                  </tbody>
+                  </table>
+</div>
